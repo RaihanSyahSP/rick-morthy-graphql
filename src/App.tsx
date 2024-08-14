@@ -1,22 +1,23 @@
-import CountBtn from '@/components/CountBtn';
-import ReactSVG from '@/assets/react.svg';
-import { Badge } from '@/components/ui/badge';
+import { ApolloProvider } from "@apollo/client";
+import PageWrapper from "./layouts/PageWrapper";
+import client from "./apolloClient";
 
 function App() {
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
-      <div className="flex flex-col items-center gap-y-4">
-        <div className="inline-flex items-center gap-x-4">
-          <img src={ReactSVG} alt="React Logo" className="w-32" />
-          <span className="text-6xl">+</span>
-          <img src={'/vite.svg'} alt="Vite Logo" className="w-32" />
-        </div>
-        <a href="https://ui.shadcn.com" rel="noopener noreferrer nofollow" target="_blank">
-          <Badge variant="outline">shadcn/ui</Badge>
-        </a>
-        <CountBtn />
-      </div>
-    </main>
+    <ApolloProvider client={client}>
+      <PageWrapper title="Rick Morthy App">
+        <main className="layout flex flex-col items-center justify-center h-screen bg-slate-600">
+          <div className="flex flex-col items-center gap-y-4">
+            <h1 className="text-5xl font-bold">
+              Rick & Morty -{" "}
+              <span className="font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
+                GraphQl
+              </span>
+            </h1>
+          </div>
+        </main>
+      </PageWrapper>
+    </ApolloProvider>
   );
 }
 
