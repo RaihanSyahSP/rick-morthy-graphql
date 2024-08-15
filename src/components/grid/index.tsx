@@ -53,7 +53,7 @@ export const Grid = () => {
 
   return (
     <div onScroll={handleScroll} className="overflow-y-scroll h-[80vh] no-scrollbar">
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-10 lg:gap-10 gap-5 px-5 sm:px-8 lg:px-12">
+      <section className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2  my-10 lg:gap-10 gap-5 px-5 sm:px-8 lg:px-12">
         {episodes.map((episode, index) => (
           <CardEpisode
             key={episode.id}

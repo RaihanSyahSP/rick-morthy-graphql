@@ -82,6 +82,20 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  .scroll-visible::-webkit-scrollbar {
+    width: 8px; /* Adjust the width if necessary */
+  }
+
+  .scroll-visible::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5); /* Adjust the color and opacity */
+    border-radius: 10px;
+  }
+
+  .scroll-visible {
+    scrollbar-width: thin; /* Makes scrollbar appear thin in Firefox */
+    scrollbar-color: rgba(100, 100, 100, 0.5) transparent; /* Custom color for Firefox */
+  }
 }
 
 @layer base {
