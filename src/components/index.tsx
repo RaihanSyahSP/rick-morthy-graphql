@@ -1,4 +1,4 @@
-import { CardCharacter } from "./card-character";
+import { CardEpisode } from "./card-episode";
 import { CharacterSelected } from "./character-selected";
 import { ModalCharacter } from "./modal";
 import { Grid } from "./grid";
@@ -7,7 +7,7 @@ import { ErrorMessage } from "./error";
 import { Loading } from "./loading";
 
 export {
-  CardCharacter,
+  CardEpisode,
   CharacterSelected,
   ModalCharacter,
   Grid,

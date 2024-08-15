@@ -1,7 +1,7 @@
 import { ApolloProvider } from "@apollo/client";
 import PageWrapper from "./layouts/PageWrapper";
 import client from "./apolloClient";
-import { Grid } from "@/components";
+import { Grid } from "./components";
 
 function App() {
   return (
