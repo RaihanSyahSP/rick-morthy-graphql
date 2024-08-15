@@ -1,16 +1,26 @@
-import { useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import { CardEpisode, CharacterSelected, ErrorMessage, Loading } from "@/components";
 import { GET_EPISODES } from "../../queries";
 import { Episodes } from "../../types";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 export const Grid = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [episodes, setEpisodes] = useState<Episodes["episodes"]["results"]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { loading, error, data, fetchMore } = useQuery<Episodes>(GET_EPISODES, {
-    variables: { page },
+  const [localName, setLocalName] = useState(searchParams.get("name") || "");
+  const [localEpisode, setLocalEpisode] = useState(searchParams.get("episode") || "");
+
+  const name = searchParams.get("name") || "";
+  const episode = searchParams.get("episode") || "";
+
+  const { loading, error, data, fetchMore, refetch } = useQuery<Episodes>(GET_EPISODES, {
+    variables: { page, filter: { name, episode } },
     notifyOnNetworkStatusChange: true,
   });
 
@@ -21,11 +31,20 @@ export const Grid = () => {
     }
   };
 
+  const handleSearch = () => {
+    setEpisodes([]);
+    setPage(1);
+    setSearchParams({ name: localName, episode: localEpisode });
+    refetch({ page: 1, filter: { name: localName, episode: localEpisode } });
+  };
+
   useEffect(() => {
     if (data && data.episodes) {
-      setEpisodes((prevEpisodes) => [...prevEpisodes, ...data.episodes.results]);
+      setEpisodes((prevEpisodes) =>
+        page === 1 ? data.episodes.results : [...prevEpisodes, ...data.episodes.results]
+      );
     }
-  }, [data]);
+  }, [data, page]);
 
   useEffect(() => {
     if (page > 1) {
@@ -53,16 +72,32 @@ export const Grid = () => {
 
   return (
     <div onScroll={handleScroll} className="overflow-y-scroll h-[80vh] no-scrollbar">
-      <section className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2  my-10 lg:gap-10 gap-5 px-5 sm:px-8 lg:px-12">
-        {episodes.map((episode, index) => (
-          <CardEpisode
-            key={episode.id}
-            {...episode}
-            index={index}
-            onSelected={(characterId: string) => setSelected(characterId)}
-          />
-        ))}
-      </section>
+      <div className="flex w-full max-w-sm items-center space-x-2 ml-0">
+        <Input
+          type="search"
+          placeholder="Search Name..."
+          value={localName}
+          onChange={(e) => setLocalName(e.target.value)}
+        />
+        <Input
+          type="search"
+          placeholder="Search Episode..."
+          value={localEpisode}
+          onChange={(e) => setLocalEpisode(e.target.value)}
+        />
+        <Button type="button" onClick={handleSearch}>
+          Search
+        </Button>
+      </div>
+      {episodes.length === 0 && !loading ? (
+        <ErrorMessage error="No Result Found" />
+      ) : (
+        <section className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2  my-10 lg:gap-10 gap-5">
+          {episodes.map((episode, index) => (
+            <CardEpisode key={`${episode.id}-${index}`} {...episode} index={index} />
+          ))}
+        </section>
+      )}
       <CharacterSelected />
     </div>
   );

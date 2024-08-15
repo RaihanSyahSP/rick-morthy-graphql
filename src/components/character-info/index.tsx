@@ -5,7 +5,7 @@ import { CharacterByID } from "@/types";
 import { ErrorMessage, Loading } from "@/components";
 
 export const CharacterInfo = () => {
-  const { episodeId, characterId } = useParams<{
+  const { characterId } = useParams<{
     episodeId: string;
     characterId: string;
   }>();

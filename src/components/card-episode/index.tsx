@@ -4,12 +4,11 @@ import { ResultEpisodes } from "../../types";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface Props extends ResultEpisodes {
-  onSelected: (id: string) => void;
   index: number;
 }
 
 export const CardEpisode = (props: Props) => {
-  const { id, name, index, air_date, onSelected, characters } = props;
+  const { id, name, index, air_date, characters } = props;
   const navigate = useNavigate();
 
   const handleCharacterSelect = (characterId: string) => {
