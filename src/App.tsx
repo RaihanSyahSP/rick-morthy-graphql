@@ -1,7 +1,9 @@
 import { ApolloProvider } from "@apollo/client";
+import { BrowserRouter as Router } from "react-router-dom";
 import PageWrapper from "./layouts/PageWrapper";
 import client from "./apolloClient";
 import { Grid } from "./components";
+import BaseRoute from "./routes";
 
 function App() {
   return (
@@ -15,7 +17,9 @@ function App() {
                 GraphQl
               </span>
             </h1>
-            <Grid />
+            <Router>
+              <BaseRoute />
+            </Router>
           </div>
         </main>
       </PageWrapper>

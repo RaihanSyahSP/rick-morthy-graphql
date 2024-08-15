@@ -63,10 +63,7 @@ export const Grid = () => {
           />
         ))}
       </section>
-      <CharacterSelected
-        onClearSelected={() => setSelected(null)}
-        characterId={selected}
-      />
+      <CharacterSelected />
     </div>
   );
 };

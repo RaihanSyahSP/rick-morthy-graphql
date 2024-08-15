@@ -1,9 +1,14 @@
 import { useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
 import { GET_CHARACTER_BY_ID } from "../../queries";
 import { CharacterByID } from "@/types";
 import { ErrorMessage, Loading } from "@/components";
 
-export const CharacterInfo = ({ characterId }: { characterId: string }) => {
+export const CharacterInfo = () => {
+  const { episodeId, characterId } = useParams<{
+    episodeId: string;
+    characterId: string;
+  }>();
   const { data, loading, error } = useQuery<CharacterByID>(GET_CHARACTER_BY_ID, {
     variables: { id: characterId },
   });

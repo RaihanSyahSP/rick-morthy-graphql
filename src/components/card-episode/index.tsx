@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { ResultEpisodes } from "../../types";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
@@ -9,6 +10,11 @@ interface Props extends ResultEpisodes {
 
 export const CardEpisode = (props: Props) => {
   const { id, name, index, air_date, onSelected, characters } = props;
+  const navigate = useNavigate();
+
+  const handleCharacterSelect = (characterId: string) => {
+    navigate(`/episode/${id}/character/${characterId}`);
+  };
 
   return (
     <motion.div
@@ -32,7 +38,7 @@ export const CardEpisode = (props: Props) => {
               <figure
                 key={character.id}
                 className="shrink-0 bg-gray-100 dark:bg-gray-700 rounded-lg p-4 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600"
-                onClick={() => onSelected(character.id)}
+                onClick={() => handleCharacterSelect(character.id)}
               >
                 <div className="overflow-hidden rounded-md">
                   <img

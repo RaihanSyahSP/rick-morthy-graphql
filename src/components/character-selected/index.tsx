@@ -1,15 +1,17 @@
+import { useNavigate, useParams } from "react-router-dom";
 import { CharacterInfo } from "../character-info";
 import { ModalCharacter } from "../modal";
 
-interface Props {
-  characterId: string | null;
-  onClearSelected: () => void;
-}
+export const CharacterSelected = () => {
+  const { characterId } = useParams<{ characterId: string }>();
+  const navigate = useNavigate();
 
-export const CharacterSelected = ({ characterId, onClearSelected }: Props) => {
+  const handleClearSelection = () => {
+    navigate(-1);
+  };
   return (
-    <ModalCharacter isOpen={!!characterId} onClearSelected={onClearSelected}>
-      <>{characterId && <CharacterInfo characterId={characterId} />}</>
+    <ModalCharacter isOpen={!!characterId} onClearSelected={handleClearSelection}>
+      <>{characterId && <CharacterInfo />}</>
     </ModalCharacter>
   );
 };
