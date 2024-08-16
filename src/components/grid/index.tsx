@@ -70,7 +70,11 @@ export const Grid = () => {
   if (error) return <ErrorMessage error={error.message} />;
 
   return (
-    <div onScroll={handleScroll} className="overflow-y-scroll h-[80vh] no-scrollbar">
+    <div
+      onScroll={handleScroll}
+      className="overflow-y-scroll h-[80vh] no-scrollbar"
+      data-testid="grid-container"
+    >
       <div className="flex w-full max-w-sm items-center space-x-2 ml-0">
         <Input
           type="search"

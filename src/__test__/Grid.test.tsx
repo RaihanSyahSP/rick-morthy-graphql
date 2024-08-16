@@ -4,7 +4,6 @@ import { MemoryRouter } from "react-router-dom";
 import { Grid } from "@/components";
 import { GET_EPISODES } from "@/queries";
 
-// Mock data for the episodes query
 const initialMocks = [
   {
     request: {
@@ -33,10 +32,11 @@ const initialMocks = [
       },
     },
   },
+  //   mock for the search by name
   {
     request: {
       query: GET_EPISODES,
-      variables: { page: 1, filter: { name: "Pilot", episode: "" } }, // Adjust the filter to match the search query
+      variables: { page: 1, filter: { name: "Pilot", episode: "" } },
     },
     result: {
       data: {
@@ -83,12 +83,13 @@ const initialMocks = [
             },
           ],
           info: {
-            next: null, // or appropriate value for pagination
+            next: null,
           },
         },
       },
     },
   },
+  //   mock for the search by episode
   {
     request: {
       query: GET_EPISODES,
@@ -110,7 +111,54 @@ const initialMocks = [
             },
           ],
           info: {
-            next: null, // No more pages
+            next: null,
+          },
+        },
+      },
+    },
+  },
+  //   mock for the second page of episodes
+  {
+    request: {
+      query: GET_EPISODES,
+      variables: { page: 2, filter: { name: "", episode: "" } },
+    },
+    result: {
+      data: {
+        episodes: {
+          results: [
+            {
+              id: "21",
+              name: "The Wedding Squanchers",
+              air_date: "October 4, 2015",
+              episode: "S02E10",
+              characters: [
+                {
+                  id: "1",
+                  name: "Rick Sanchez",
+                  status: "Alive",
+                  species: "Human",
+                  type: "",
+                  gender: "Male",
+                  image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+                  __typename: "Character",
+                },
+                {
+                  id: "2",
+                  name: "Morty Smith",
+                  status: "Alive",
+                  species: "Human",
+                  type: "",
+                  gender: "Male",
+                  image: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+                  __typename: "Character",
+                },
+              ],
+              created: "2015-10-04T00:00:00Z",
+            },
+          ],
+          info: {
+            next: null,
           },
         },
       },
@@ -138,21 +186,17 @@ describe("Grid Component", () => {
       </MockedProvider>
     );
 
-    // Check for initial loading state
     expect(screen.getByText("Loading episodes ...")).toBeInTheDocument();
 
-    // Wait for the component to load and display data
     await waitFor(() => {
       expect(screen.getByText("Pilot")).toBeInTheDocument();
     });
 
-    // Perform a search
     fireEvent.change(screen.getByPlaceholderText("Search Name..."), {
       target: { value: "Pilot" },
     });
     fireEvent.click(screen.getByText("Search"));
 
-    // Check if search results are displayed
     await waitFor(() => {
       expect(screen.getByText("Pilot")).toBeInTheDocument();
     });
@@ -167,21 +211,17 @@ describe("Grid Component", () => {
       </MockedProvider>
     );
 
-    // Check for initial loading state
     expect(screen.getByText("Loading episodes ...")).toBeInTheDocument();
 
-    // Wait for the component to load and display data
     await waitFor(() => {
       expect(screen.getByText("Pilot")).toBeInTheDocument();
     });
 
-    // Perform a search by episode
     fireEvent.change(screen.getByPlaceholderText("Search Episode..."), {
       target: { value: "S01E01" },
     });
     fireEvent.click(screen.getByText("Search"));
 
-    // Check if search results are displayed
     await waitFor(() => {
       expect(screen.getByText("Pilot")).toBeInTheDocument();
     });
@@ -196,7 +236,6 @@ describe("Grid Component", () => {
       </MockedProvider>
     );
 
-    // Verify loading message
     expect(screen.getByText("Loading episodes ...")).toBeInTheDocument();
   });
 
@@ -209,9 +248,45 @@ describe("Grid Component", () => {
       </MockedProvider>
     );
 
-    // Check if error message is displayed
     await waitFor(() => {
       expect(screen.getByText("An error occurred")).toBeInTheDocument();
+    });
+  });
+
+  test("loads more data on scroll", async () => {
+    render(
+      <MockedProvider mocks={initialMocks} addTypename={false}>
+        <MemoryRouter>
+          <Grid />
+        </MemoryRouter>
+      </MockedProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Pilot")).toBeInTheDocument();
+    });
+
+    const gridContainer = screen.getByTestId("grid-container");
+
+    Object.defineProperty(gridContainer, "scrollTop", {
+      writable: true,
+      value: 1000,
+    });
+    Object.defineProperty(gridContainer, "clientHeight", {
+      writable: true,
+      value: 500,
+    });
+    Object.defineProperty(gridContainer, "scrollHeight", {
+      writable: true,
+      value: 1500,
+    });
+
+    fireEvent.scroll(gridContainer, {
+      target: { scrollTop: 1000, clientHeight: 500, scrollHeight: 1500 },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("The Wedding Squanchers")).toBeInTheDocument();
     });
   });
 });

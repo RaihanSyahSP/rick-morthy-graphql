@@ -6,14 +6,12 @@ import { BrowserRouter } from "react-router-dom";
 import { CardEpisode } from "@/components/card-episode";
 import { ResultEpisodes } from "@/types";
 
-// Mock useNavigate from react-router-dom
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate,
 }));
 
-// Mock data for the component
 const mockEpisode: ResultEpisodes = {
   id: "1",
   name: "Pilot",

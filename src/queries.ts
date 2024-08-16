@@ -23,23 +23,6 @@ export const GET_EPISODES = gql`
   }
 `;
 
-// export const GET_CHARACTERS = gql`
-//   query GetCharacters($page: Int!, $filter: FilterCharacters) {
-//     characters(page: $page, filter: $filter) {
-//       results {
-//         id
-//         name
-//         status
-//         image
-//         origin {
-//           name
-//         }
-//         created
-//       }
-//     }
-//   }
-// `;
-
 export const GET_CHARACTERS = gql`
   query {
     characters {

@@ -15,6 +15,7 @@ export const CharacterInfo = () => {
 
   if (loading) return <Loading />;
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   if (error || !data) return <ErrorMessage error={error!.message} />;
 
   const { created, gender, image, name, species, status, type } = data.character;
