@@ -15,6 +15,10 @@ export const CardEpisode = (props: Props) => {
     navigate(`/episode/${id}/character/${characterId}`);
   };
 
+  if (!Array.isArray(characters)) {
+    return <div>No characters available</div>;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -100 }}
