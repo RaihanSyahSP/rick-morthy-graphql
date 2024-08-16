@@ -1,86 +1,75 @@
-# React + Vite + TypeScript Template (react-vite-ui)
-
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dan5py/react-vite-ui/blob/main/LICENSE)
-
-A React + Vite template powered by shadcn/ui.
-
-## 🎉 Features
-
-- **React** - A JavaScript library for building user interfaces.
-- **Vite** - A fast, opinionated frontend build tool.
-- **TypeScript** - A typed superset of JavaScript that compiles to plain JavaScript.
-- **Tailwind CSS** - A utility-first CSS framework.
-- **Tailwind Prettier Plugin** - A Prettier plugin for formatting Tailwind CSS classes.
-- **ESLint** - A pluggable linting utility for JavaScript and TypeScript.
-- **PostCSS** - A tool for transforming CSS with JavaScript.
-- **Autoprefixer** - A PostCSS plugin to parse CSS and add vendor prefixes.
-- **shadcn/ui** - Beautifully designed components that you can copy and paste into your apps.
-
-## ⚙️ Prerequisites
-
-Make sure you have the following installed on your development machine:
-
-- Node.js (version 16 or above)
-- pnpm (package manager)
-
-## 🚀 Getting Started
-
-Follow these steps to get started with the react-vite-ui template:
-
-1. Clone the repository:
-
+# Rick and Morty GraphQL App
+## Overview
+This application is a web-based interface for exploring episodes and characters from the *Rick and Morty* series using GraphQL. The app provides functionality for searching episodes, viewing detailed character information, and includes infinite scrolling for seamless data loading.
+## Features
+- **Search Episodes**: Filter episodes by name and display the results.
+- **Infinite Scrolling**: Automatically load more episodes as you scroll down the list.
+- **Character Details**: Clickable character names that display detailed information.
+- **Responsive Design**: Designed to work across various screen sizes.
+## Technologies Used
+- **React**: Frontend library for building the user interface.
+- **TypeScript**: Provides type safety and development efficiency.
+- **GraphQL**: Query language for fetching data from the backend.
+- **Apollo Client**: Manages data and interacts with GraphQL.
+- **Vite**: Build tool for fast development and build processes.
+- **TailwindCSS**: Utility-first CSS framework for styling.
+- **Jest**: For Testing.
+## Getting Started
+### Prerequisites
+- **Node.js** (v18 or later)
+- **Docker** (for containerized environment)
+### Installation
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/dan5py/react-vite-ui.git
+   git clone https://github.com/your-repo/rick-morty-graphql-app.git
+   cd rick-morty-graphql-app
+
+2. **Install Dependencies:**
+   ```bash
+   npm install
    ```
 
-2. Navigate to the project directory:
-
+3. **Start the Development Server:**
    ```bash
-   cd react-vite-ui
+   npm run dev
    ```
 
-3. Install the dependencies:
 
+The app will be available at http://localhost:3000.
+Running with Docker
+1. **Build the Docker image:**
    ```bash
-   pnpm install
+   docker build -t rick-morty-graphql
    ```
 
-4. Start the development server:
-
+2. **Run the Docker container:**
    ```bash
-   pnpm dev
+   docker run -p 3000:3000 rick-morty-graphql
    ```
 
-## 📜 Available Scripts
+Access the app at http://localhost:3000.
+Usage
+* **Search Episodes**: Use the search fields to filter episodes by name and episode number.
+* **View Characters**: Click on character names within an episode to see detailed information.
+* **Scroll for More**: As you scroll down, more episodes will be loaded automatically.
+Configuration
+GraphQL Queries
+* **GET_EPISODES**: Fetches a list of episodes with filtering options.
+* **GET_CHARACTERS**: Fetches a list of all characters.
+* **GET_CHARACTER_BY_ID**: Fetches detailed information about a character by ID.
+UI Components
+* **Grid**: Displays the list of episodes with search and filtering functionality.
+* **CardEpisode**: Represents an individual episode in the list.
+* **CharacterSelected**: Shows details of the selected character.
+* **ErrorMessage**: Displays error messages.
+* **Loading**: Shows a loading indicator.
+Testing
+Run tests using Jest:
 
-- pnpm dev - Starts the development server.
-- pnpm build - Builds the production-ready code.
-- pnpm lint - Runs ESLint to analyze and lint the code.
-- pnpm preview - Starts the Vite development server in preview mode.
-
-## 📂 Project Structure
-
-The project structure follows a standard React application layout:
-
-```python
-react-vite-ui/
-  ├── node_modules/      # Project dependencies
-  ├── public/            # Public assets
-  ├── src/               # Application source code
-  │   ├── components/    # React components
-  │   │   └── ui/        # shadc/ui components
-  │   ├── styles/        # CSS stylesheets
-  │   ├── lib/           # Utility functions
-  │   ├── App.tsx        # Application entry point
-  │   └── index.tsx      # Main rendering file
-  ├── .eslintrc.json     # ESLint configuration
-  ├── index.html         # HTML entry point
-  ├── postcss.config.js  # PostCSS configuration
-  ├── tailwind.config.js # Tailwind CSS configuration
-  ├── tsconfig.json      # TypeScript configuration
-  └── vite.config.ts     # Vite configuration
+```bash
+npm run test
 ```
 
-## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](https://choosealicense.com/licenses/mit/) file for details.
+Contributing
+Feel free to open issues or submit pull requests if you have suggestions or improvements.
