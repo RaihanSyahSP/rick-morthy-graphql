@@ -11,6 +11,7 @@ export const Grid = () => {
   const [page, setPage] = useState(1);
   const [episodes, setEpisodes] = useState<Episodes["episodes"]["results"]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
 
   const [localName, setLocalName] = useState(searchParams.get("name") || "");
   const [localEpisode, setLocalEpisode] = useState(searchParams.get("episode") || "");
@@ -47,6 +48,7 @@ export const Grid = () => {
 
   useEffect(() => {
     if (page > 1) {
+      setIsFetchingMore(true);
       fetchMore({
         variables: { page },
         updateQuery: (previousResult, { fetchMoreResult }) => {
@@ -101,6 +103,7 @@ export const Grid = () => {
           ))}
         </section>
       )}
+      {isFetchingMore && <Loading />}
       <CharacterSelected />
     </div>
   );
