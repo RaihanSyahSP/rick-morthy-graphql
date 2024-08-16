@@ -8,7 +8,6 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
 export const Grid = () => {
-  const [selected, setSelected] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [episodes, setEpisodes] = useState<Episodes["episodes"]["results"]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
