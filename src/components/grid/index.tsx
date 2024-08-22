@@ -4,8 +4,15 @@ import { useQuery } from "@apollo/client";
 import { CardEpisode, CharacterSelected, ErrorMessage, Loading } from "@/components";
 import { GET_EPISODES } from "../../queries";
 import { Episodes } from "../../types";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const Grid = () => {
   const [page, setPage] = useState(1);
@@ -13,11 +20,11 @@ export const Grid = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFetchingMore, setIsFetchingMore] = useState(false);
 
-  const [localName, setLocalName] = useState(searchParams.get("name") || "");
-  const [localEpisode, setLocalEpisode] = useState(searchParams.get("episode") || "");
+  const [searchType, setSearchType] = useState<"name" | "episode">("name");
+  const [searchValue, setSearchValue] = useState(searchParams.get("name") || "");
 
-  const name = searchParams.get("name") || "";
-  const episode = searchParams.get("episode") || "";
+  const name = searchType === "name" ? searchParams.get("name") || "" : "";
+  const episode = searchType === "episode" ? searchParams.get("episode") || "" : "";
 
   const { loading, error, data, fetchMore, refetch } = useQuery<Episodes>(GET_EPISODES, {
     variables: { page, filter: { name, episode } },
@@ -34,8 +41,14 @@ export const Grid = () => {
   const handleSearch = () => {
     setEpisodes([]);
     setPage(1);
-    setSearchParams({ name: localName, episode: localEpisode });
-    refetch({ page: 1, filter: { name: localName, episode: localEpisode } });
+
+    if (searchType === "name") {
+      setSearchParams({ name: searchValue });
+      refetch({ page: 1, filter: { name: searchValue, episode: "" } });
+    } else {
+      setSearchParams({ episode: searchValue });
+      refetch({ page: 1, filter: { name: "", episode: searchValue } });
+    }
   };
 
   useEffect(() => {
@@ -63,7 +76,7 @@ export const Grid = () => {
             },
           };
         },
-      });
+      }).finally(() => setIsFetchingMore(false));
     }
   }, [page, fetchMore]);
 
@@ -77,22 +90,27 @@ export const Grid = () => {
       className="overflow-y-scroll h-[80vh] no-scrollbar"
       data-testid="grid-container"
     >
-      <div className="flex w-full max-w-sm items-center space-x-2 ml-0">
+      <div className="flex w-full items-end space-x-2 ml-0">
+        <Select
+          onValueChange={(value) => setSearchType(value as "name" | "episode")}
+          defaultValue={searchType}
+        >
+          <SelectTrigger className="w-[160px]">
+            <SelectValue placeholder="Search by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="name">Search by Name</SelectItem>
+            <SelectItem value="episode">Search by Episode</SelectItem>
+          </SelectContent>
+        </Select>
         <Input
           type="search"
-          placeholder="Search Name..."
-          value={localName}
-          onChange={(e) => setLocalName(e.target.value)}
+          placeholder={`Search ${searchType === "name" ? "Name" : "Episode"}...`}
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="max-w-[200px]"
         />
-        <Input
-          type="search"
-          placeholder="Search Episode..."
-          value={localEpisode}
-          onChange={(e) => setLocalEpisode(e.target.value)}
-        />
-        <Button type="button" onClick={handleSearch}>
-          Search
-        </Button>
+        <Button onClick={handleSearch}>Search</Button>
       </div>
       {episodes.length === 0 && !loading ? (
         <ErrorMessage error="No Result Found" />
