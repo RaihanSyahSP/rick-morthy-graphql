@@ -51,6 +51,12 @@ export const Grid = () => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   useEffect(() => {
     if (data && data.episodes) {
       setEpisodes((prevEpisodes) =>
@@ -109,6 +115,7 @@ export const Grid = () => {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-[200px]"
+          onKeyDown={handleKeyDown}
         />
         <Button onClick={handleSearch}>Search</Button>
       </div>

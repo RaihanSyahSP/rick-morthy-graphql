@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ResultEpisodes } from "../../types";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Carousel,
   CarouselContent,
