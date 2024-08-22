@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import { MemoryRouter } from "react-router-dom";
 import { Grid } from "@/components";
-import { GET_EPISODES } from "@/queries";
+import { GET_EPISODES } from "@/queries/episodes";
 
 const initialMocks = [
   {

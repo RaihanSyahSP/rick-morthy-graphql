@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { GET_CHARACTER_BY_ID } from "../../queries";
+import { GET_CHARACTER_BY_ID } from "../../queries/character";
 import { CharacterByID } from "@/types";
 import { ErrorMessage, Loading } from "@/components";
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { CardEpisode, CharacterSelected, ErrorMessage, Loading } from "@/components";
-import { GET_EPISODES } from "../../queries";
+import { GET_EPISODES } from "../../queries/episodes";
 import { Episodes } from "../../types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
