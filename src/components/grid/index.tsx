@@ -19,6 +19,7 @@ export const Grid = () => {
   const [episodes, setEpisodes] = useState<Episodes["episodes"]["results"]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const [hasMoreResults, setHasMoreResults] = useState(true);
 
   const [searchType, setSearchType] = useState<"name" | "episode">("name");
   const [searchValue, setSearchValue] = useState(searchParams.get("name") || "");
@@ -33,7 +34,7 @@ export const Grid = () => {
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
-    if (scrollTop + clientHeight >= scrollHeight) {
+    if (scrollTop + clientHeight >= scrollHeight && hasMoreResults) {
       setPage((prevPage) => prevPage + 1);
     }
   };
@@ -41,6 +42,7 @@ export const Grid = () => {
   const handleSearch = () => {
     setEpisodes([]);
     setPage(1);
+    setHasMoreResults(true);
 
     if (searchType === "name") {
       setSearchParams({ name: searchValue });
@@ -58,20 +60,24 @@ export const Grid = () => {
   };
 
   useEffect(() => {
-    if (data && data.episodes) {
+    if (data && data.episodes && data.episodes.results) {
       setEpisodes((prevEpisodes) =>
         page === 1 ? data.episodes.results : [...prevEpisodes, ...data.episodes.results]
       );
+      setHasMoreResults(data.episodes.results.length > 0);
     }
   }, [data, page]);
 
   useEffect(() => {
-    if (page > 1) {
+    if (page > 1 && hasMoreResults) {
       setIsFetchingMore(true);
       fetchMore({
         variables: { page },
         updateQuery: (previousResult, { fetchMoreResult }) => {
-          if (!fetchMoreResult) return previousResult;
+          if (!fetchMoreResult || fetchMoreResult.episodes.results.length === 0) {
+            setHasMoreResults(false);
+            return previousResult;
+          }
           return {
             episodes: {
               ...fetchMoreResult.episodes,
@@ -84,7 +90,7 @@ export const Grid = () => {
         },
       }).finally(() => setIsFetchingMore(false));
     }
-  }, [page, fetchMore]);
+  }, [page, fetchMore, hasMoreResults]);
 
   if (loading && page === 1) return <Loading />;
 
