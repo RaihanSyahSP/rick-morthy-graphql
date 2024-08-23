@@ -8,12 +8,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
+import React from "react";
 
 interface Props extends ResultEpisodes {
   index: number;
 }
 
-export const CardEpisode = (props: Props) => {
+export const CardEpisode = React.memo((props: Props) => {
   const { id, name, index, air_date, characters } = props;
   const navigate = useNavigate();
 
@@ -74,4 +75,4 @@ export const CardEpisode = (props: Props) => {
       </motion.div>
     </motion.div>
   );
-};
+});

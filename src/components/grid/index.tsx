@@ -59,6 +59,16 @@ export const Grid = () => {
     }
   };
 
+  const handleClearSearch = () => {
+    setSearchParams({});
+    setSearchValue("");
+    setSearchType("name");
+    setEpisodes([]);
+    setPage(1);
+    setHasMoreResults(true);
+    refetch({ page: 1, filter: { name: "", episode: "" } });
+  };
+
   useEffect(() => {
     if (data && data.episodes && data.episodes.results) {
       setEpisodes((prevEpisodes) =>
@@ -119,7 +129,12 @@ export const Grid = () => {
           type="search"
           placeholder={`Search ${searchType === "name" ? "Name" : "Episode"}...`}
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            if (!e.target.value) {
+              handleClearSearch();
+            }
+          }}
           className="max-w-[200px]"
           onKeyDown={handleKeyDown}
         />
