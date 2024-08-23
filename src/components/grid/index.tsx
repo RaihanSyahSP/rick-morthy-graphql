@@ -40,6 +40,10 @@ export const Grid = () => {
   };
 
   const handleSearch = () => {
+    if (!searchValue.trim()) {
+      return;
+    }
+
     setEpisodes([]);
     setPage(1);
     setHasMoreResults(true);
