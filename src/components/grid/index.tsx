@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { CardEpisode, CharacterSelected, ErrorMessage, Loading } from "@/components";
